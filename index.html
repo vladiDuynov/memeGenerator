@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/ceb8b9c1a7.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/main.css" />
+  <title>Meme Generator</title>
+</head>
+
+<body onload="onInit()">
+  <nav class="main-nav">
+        <div class="main-logo" onclick="closeEditor()">memegen</div>
+        <ul class="main-menu clean-list flex space-between align-center">
+            <li><a class="menu-item gallery-tab totally-center active" onclick="closeEditor()">Gallery</a></li>
+            <li class="separator "></li>
+            <li><a class="menu-item totally-center" onclick="closeEditor()" href="#info-container">About</a></li>
+        </ul>
+</nav>
+<div class="main-content grid ">
+    <div class="main-search">
+    </div>
+    <div class="main-gallery totally-center">
+        <div class="gallery-container ">
+            <div class="gallery flex wrap totally-center"></div>
+        </div>
+    </div>
+    <div id=info-container class="info-container totally-center">
+        <div class="text-container flex column">
+            <div class="info">
+                <img src="imgs\vladi.jpeg" alt="" class="img-container" />
+            <div class="text-container flex column">
+                <div class="info">
+                    <h3>Vladi Duynov</h3>
+                    <p>A Full Stack developer with a strong foundation in both front-end and back-end development.</p>
+                </div>
+            </div>
+            </div>
+            <div class="media-icons">
+                <div class="icons-container flex justify-space-between">
+                    <a href="https://www.linkedin.com/in/vladi-duynov/" target="_blank"
+                        class="linkedin totally-center"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/vladiDuynov" target="_blank" class="github totally-center"><i
+                            class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  <div class="editor-container hidden totally-center">
+    <div class="canvas-container">
+        <canvas id="my-canvas" class="canvas" width="400" height="400"></canvas>
+    </div>
+    <div class="controls-container flex column">
+        <div class="controls full">
+            <input class="txt-input controls-item" type="text" placeholder="Type here" oninput="onSetLineText()">
+            <div class="txts-controls">
+                <button title="Move the line up" class="btn controls-item">
+                    <img src="Meme1 - Sergei\ICONS\arrow-up.png" width="40px" onclick="onUpdateHeight(-6)">
+                </button>
+                <button title="Move the line down" class="btn controls-item">
+                    <img src="Meme1 - Sergei\ICONS\arrow-down.png" width="40px" onclick="onUpdateHeight(6)">
+                </button>
+                <button title="Switch between lines" class="btn controls-item lines-switch">
+                    <img src="Meme1 - Sergei\ICONS\up-and-down-opposite-double-arrows-side-by-side.png" width="40px"
+                        onclick="onSetTxtIdx()">
+                </button>
+                <button title="Add a new line" class="btn controls-item" onclick="onAddLine()">
+                    <img src="Meme1 - Sergei\ICONS\add.png" width="40px">
+                </button>
+                <button title="Delete the line" class="btn controls-item delete-btn" onclick="onDeleteLine()">
+                    <img src="Meme1 - Sergei\ICONS\trash.png" width="40px">
+                </button>
+            </div>
+            <div class="size-align-controls flex space-between">
+                <button title="Increase font size" class="btn controls-item">
+                    <img src="Meme1 - Sergei\ICONS\increase font - icon.png" width="40px" onclick="onUpdateSize(2)">
+                </button>
+                <button title="Decrease font size" class="btn controls-item">
+                    <img src="Meme1 - Sergei\ICONS\decrease font - icon.png" width="40px"
+                        onclick="onUpdateSize(-2)">
+                </button>
+                <button title="Text align left" class="btn controls-item" onclick="onUpdateAlign('start')">
+                    <img src="Meme1 - Sergei\ICONS\align-to-left.png" width="40px">
+                </button>
+                <button title="Text align center" class="btn controls-item" onclick="onUpdateAlign('center')">
+                    <img src="Meme1 - Sergei\ICONS\center-text-alignment.png" width="40px">
+                </button>
+                <button title="Text align right" class="btn controls-item" onclick="onUpdateAlign('end')">
+                    <img src="Meme1 - Sergei\ICONS\align-to-right.png" width="40px">
+                </button>
+            </div>
+            <div class="font-style flex space-between">
+                <select title="Font options" class="font-family controls-item" onchange="onUpdateFontFamily(value)">
+                    <option value="impact">Impact</option>
+                    <option value="ariel">Ariel</option>
+                    <option value="helvetica">Helvetica</option>
+                    <option value="roboto">Roboto</option>
+                    <option value="calibri">Calibri</option>
+                </select>
+                <label class="btn controls-item" for="stroke-color" title="Outline color">
+                    <img width="40px" class=" color-img" src="/Meme1 - Sergei/ICONS/text stroke.png">
+                </label>
+                <input id="stroke-color" type="color" class="stroke-color" onchange="onUpdateOutlineColor()">
+                <label class="btn controls-item" for="font-color" title="Font color"><img width="40px"
+                        class="color-img" src="/Meme1 - Sergei/ICONS/paint-board-and-brush.png"></label>
+
+                <input id="font-color" type="color" class="font-color" onchange="onUpdateFontColor()">
+
+
+            </div>
+        </div>
+        <div class="action-controls flex space-between">
+            <button title="Download your meme" class="action-btns"><a class=" btn controls-item" href="#"
+                    onclick="onDownloadCanvas(this)" download="">Download</a></button>
+            <form class="action-btns" action="" method="POST" enctype="multipart/form-data"
+                onsubmit="uploadImg(this, event)">
+                <input name="img" id="imgData" type="hidden" />
+                <div class="share-btns flex">
+                    <button title="Click to share on facebook" class="btn controls-item"
+                        type="submit">Share</button>
+                    <div title="share to facebook" class="share-container btn controls-item hidden"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="footer totally-center column">
+    <div class="main-logo">memegen</div>
+    <div class="rights">all rights reserved 2023</div>
+</footer>
+</body>
+<script src="js/gallery-controller.js"></script>
+<script src="js/meme-controller.js"></script>
+<script src="js/meme-service.js"></script>
+<script src="js/main.js"></script>
+<script src="js/storage-service.js"></script>
+
+</html>
